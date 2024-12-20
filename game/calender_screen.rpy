@@ -4,10 +4,11 @@
 
 default calender_entry_width = config.screen_width //9
 default calender_entry_short_height = config.screen_height //9
-default calender_entry_full_height = config.screen_width //3
+default calender_entry_full_height = int(config.screen_width /3.5)
+default highest_cell_ypos = config.screen_height - calender_entry_full_height
 
 screen calender_entry_short(texts,xy):
-    default k = 14
+    default k = 12
     frame:
         xysize (calender_entry_width, calender_entry_short_height)
         imagebutton:
@@ -21,13 +22,10 @@ screen calender_entry_short(texts,xy):
 
 
 screen calender_entry_long(texts,xy):
+
     frame:
         xysize (calender_entry_width, calender_entry_full_height)
-        pos (xy[0]+1)* calender_entry_width+6, (xy[1]+2) * calender_entry_short_height + 56
-        #if calender_entry_full_height+ xy[1] > config.screen_height:
-        #    yanchor 1.0 
-        #else:
-        #    yanchor 0.0
+        pos xy 
         vbox:
             
             for text in texts:
@@ -89,7 +87,7 @@ screen calender(cal_obj):
                 for day_nr in range(0,cal_obj.first_day_of_week):
                     use calender_entry_empty((0,0))
                 for day_nr in range(1, cal_obj.days_amount+1):
-                    use calender_entry_short((day_nr,), ((cal_obj.first_day_of_week+day_nr-1)%7,(cal_obj.first_day_of_week+day_nr-1)//7))
+                    use calender_entry_short((day_nr,), cal_obj.gui_cell_xy_pos(day_nr,calender_entry_width, calender_entry_short_height, highest_cell_ypos))
                 
 
 
@@ -221,6 +219,23 @@ init -999 python:
             if days_amount % 7:
                 rows_amount += 1             
             return rows_amount
+
+
+        def gui_cell_xy_pos(self,day_nr, cell_width,cell_height,highest_cell_ypos):
+            cell_nr = self.first_day_of_week+day_nr-1
+            
+            #cell pos:
+            ypos = cell_nr//7
+            xpos = cell_nr%7
+
+            #pixel pos:
+            xpos = (xpos+1)*cell_width+6
+            ypos = (ypos+2)*cell_height+56
+            if ypos > highest_cell_ypos:
+                ypos = ypos -highest_cell_ypos + cell_height-13
+            return xpos,ypos
+
+
 
             
 

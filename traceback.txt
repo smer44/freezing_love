@@ -1,22 +1,88 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/calender_screen.rpy", line 257, in script
-    jump loop
-ScriptError: could not find label 'loop'.
+  File "game/calender_screen.rpy", line 279, in script
+    pause
+  File "renpy/common/000statements.rpy", line 462, in execute_pause
+    renpy.pause()
+  File "game/calender_screen.rpy", line 63, in execute
+    screen calender(cal_obj):
+  File "game/calender_screen.rpy", line 63, in execute
+    screen calender(cal_obj):
+  File "game/calender_screen.rpy", line 64, in execute
+    frame:
+  File "game/calender_screen.rpy", line 67, in execute
+    vbox:
+  File "game/calender_screen.rpy", line 92, in execute
+    grid 7 cal_obj.gui_rows_amount():
+  File "game/calender_screen.rpy", line 96, in execute
+    for day_nr in range(1, cal_obj.days_amount+1):
+  File "game/calender_screen.rpy", line 97, in execute
+    use calender_entry_short((day_nr,), cal.obj.gui_cell_xy_pos(day_nr,calender_entry_width, calender_entry_short_height, highest_cell_ypos))
+  File "game/calender_screen.rpy", line 97, in <module>
+    use calender_entry_short((day_nr,), cal.obj.gui_cell_xy_pos(day_nr,calender_entry_width, calender_entry_short_height, highest_cell_ypos))
+NameError: name 'cal' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/calender_screen.rpy", line 257, in script
-    jump loop
-  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\ast.py", line 1701, in execute
-    rv = renpy.game.script.lookup(target)
-  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\script.py", line 1103, in lookup
-    raise ScriptError("could not find label '%s'." % str(original))
-ScriptError: could not find label 'loop'.
+  File "game/calender_screen.rpy", line 279, in script
+    pause
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\ast.py", line 1971, in execute
+    self.call("execute")
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\ast.py", line 1953, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\statements.py", line 349, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 462, in execute_pause
+    renpy.pause()
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\exports.py", line 1662, in pause
+    rv = renpy.ui.interact(mouse='pause', type='pause', roll_forward=roll_forward, pause=delay, pause_modal=modal)
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\ui.py", line 301, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\display\core.py", line 2166, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\display\core.py", line 2688, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\display\displayable.py", line 431, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\display\displayable.py", line 431, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\display\displayable.py", line 431, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\display\screen.py", line 480, in visit_all
+    callback(self)
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\display\core.py", line 2688, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\display\screen.py", line 491, in per_interact
+    self.update()
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\display\screen.py", line 697, in update
+    self.screen.function(**self.scope)
+  File "game/calender_screen.rpy", line 63, in execute
+    screen calender(cal_obj):
+  File "game/calender_screen.rpy", line 63, in execute
+    screen calender(cal_obj):
+  File "game/calender_screen.rpy", line 64, in execute
+    frame:
+  File "game/calender_screen.rpy", line 67, in execute
+    vbox:
+  File "game/calender_screen.rpy", line 92, in execute
+    grid 7 cal_obj.gui_rows_amount():
+  File "game/calender_screen.rpy", line 96, in execute
+    for day_nr in range(1, cal_obj.days_amount+1):
+  File "game/calender_screen.rpy", line 97, in execute
+    use calender_entry_short((day_nr,), cal.obj.gui_cell_xy_pos(day_nr,calender_entry_width, calender_entry_short_height, highest_cell_ypos))
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\parameter.py", line 477, in evaluate
+    value = renpy.python.py_eval(v, locals=scope)
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\python.py", line 1209, in py_eval
+    return py_eval_bytecode(code, globals, locals)
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\python.py", line 1202, in py_eval_bytecode
+    return eval(bytecode, globals, locals)
+  File "game/calender_screen.rpy", line 97, in <module>
+    use calender_entry_short((day_nr,), cal.obj.gui_cell_xy_pos(day_nr,calender_entry_width, calender_entry_short_height, highest_cell_ypos))
+NameError: name 'cal' is not defined
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.2.3.24061702
 freezing_love_1 1.0
-Fri Dec 20 02:05:54 2024
+Fri Dec 20 02:45:17 2024
