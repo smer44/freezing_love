@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/calender_screen.rpy", line 27: a non-constant keyword argument like 'xysize (calender_entry_width, calender_entry_full_height)' is not allowed after a python block.
-    xysize (calender_entry_width, calender_entry_full_height)
-                                                             ^
+File "game/screens.rpy", line 358: end of line expected.
+    use use snowflakes(100)
+            ^
 
 Ren'Py Version: Ren'Py 8.2.3.24061702
-Fri Dec 20 02:33:28 2024
+Fri Dec 20 04:26:42 2024

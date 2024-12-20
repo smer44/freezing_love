@@ -1,7 +1,4 @@
-﻿transform full_screen:
-    size (config.screen_width, config.screen_height)
-
-
+﻿
 default calender_entry_width = config.screen_width //9
 default calender_entry_short_height = config.screen_height //9
 default calender_entry_full_height = int(config.screen_width /3.5)
@@ -264,11 +261,6 @@ init -999 python:
 
 
 
-
-label start_tests():
-    menu:
-        "test_calender_entry_short":
-            jump test_calender_entry_short
 
 label test_calender_entry_short():
     #show screen calender_entry_short(("one","two", "three"), (200,200))
