@@ -1,0 +1,10 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/calender_screen.rpy", line 12: 'Solid' is not a keyword argument or valid child of the imagebutton statement.
+    imagebutton Solid("#09f",xsize=calender_entry_width, ysize=calender_entry_short_height):
+                     ^
+
+Ren'Py Version: Ren'Py 8.2.3.24061702
+Fri Dec 20 02:00:29 2024

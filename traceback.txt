@@ -1,0 +1,22 @@
+﻿I'm sorry, but an uncaught exception occurred.
+
+While running game code:
+  File "game/calender_screen.rpy", line 257, in script
+    jump loop
+ScriptError: could not find label 'loop'.
+
+-- Full Traceback ------------------------------------------------------------
+
+Full traceback:
+  File "game/calender_screen.rpy", line 257, in script
+    jump loop
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\ast.py", line 1701, in execute
+    rv = renpy.game.script.lookup(target)
+  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\script.py", line 1103, in lookup
+    raise ScriptError("could not find label '%s'." % str(original))
+ScriptError: could not find label 'loop'.
+
+Windows-10-10.0.19045 AMD64
+Ren'Py 8.2.3.24061702
+freezing_love_1 1.0
+Fri Dec 20 02:05:54 2024

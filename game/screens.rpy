@@ -298,6 +298,7 @@ screen navigation():
         if main_menu:
 
             textbutton _("Start") action Start()
+            textbutton _("Tests") action Start("start_tests")
 
         else:
 
