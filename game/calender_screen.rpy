@@ -150,7 +150,7 @@ init -999 python:
             return (year % 100 != 0 and year % 4 == 0 ) or (year % 400 == 0)
 
 
-        def calc_days_of_month(self):
+        def calc_days_of_month_alt(self):
             year = self.year#
             month = self.month
             if month in CalenderMonth.month_with_30_days:
@@ -162,6 +162,13 @@ init -999 python:
                     return 28 
             else:
                 return 31 
+
+        def calc_days_of_month(self):
+            m = self.month_number[self.month]
+            if m == 2:
+                return 28+self.is_leap_year
+            return 30 + (m+ (m > 7)) %2
+
 
         def calc_months_first_day_of_week_alt(self):
             #as in https://www.almanac.com/how-find-day-week
@@ -184,8 +191,7 @@ init -999 python:
 
         def calc_months_first_day_of_week(self):
             # as in https://en.wikipedia.org/wiki/Determination_of_the_day_of_the_week
-            #keith method
-            #Sakamoto's methods
+            #Sakamoto's method
             d = 1 
             m = CalenderMonth.month_number[self.month]
             y = self.year
