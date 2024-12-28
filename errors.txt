@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/screens.rpy", line 358: end of line expected.
-    use use snowflakes(100)
-            ^
+File "game/obj_screen_char.rpy", line 13: 'ysize' is not a keyword argument or valid child of the screen statement.
+    ysize = 165
+         ^
 
 Ren'Py Version: Ren'Py 8.2.3.24061702
-Fri Dec 20 04:26:42 2024
+Sat Dec 28 05:16:00 2024

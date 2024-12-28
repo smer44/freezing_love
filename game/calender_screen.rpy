@@ -4,29 +4,38 @@ default calender_entry_short_height = config.screen_height //9
 default calender_entry_full_height = int(config.screen_width /3.5)
 default highest_cell_ypos = config.screen_height - calender_entry_full_height
 
-screen calender_entry_short(texts,xy):
+screen calender_entry_short(title,texts,xy):
     default k = 12
     frame:
+        modal True
         xysize (calender_entry_width, calender_entry_short_height)
         imagebutton:
             idle Solid("#000",xsize=calender_entry_width-k, ysize=calender_entry_short_height-k)
             hover Solid("#0af",xsize=calender_entry_width-k, ysize=calender_entry_short_height-k)
-            action ToggleScreen("calender_entry_long",None, texts,xy)
+            action ToggleScreen("calender_entry_long",None, title,texts,xy)
         #pos xy 
-        vbox:            
-            for text in texts:
-                text "[text]" 
+        vbox:
+            text "[title]"
+            for text in texts[:2]:
+                text "[text]" style  "small_calender_entry_text"
+            if len(texts)>2:
+                text "..." style  "small_calender_entry_text"
 
 
-screen calender_entry_long(texts,xy):
+style small_calender_entry_text:
+    size config.screen_height //50
+
+
+screen calender_entry_long(title,texts,xy):
 
     frame:
-        xysize (calender_entry_width, calender_entry_full_height)
+        modal True
+        xysize (calender_entry_width*2, calender_entry_full_height)
         pos xy 
         vbox:
-            
+            text "[title]"
             for text in texts:
-                text "[text]" 
+                text "[text]" style  "small_calender_entry_text"
 
 
 
@@ -84,12 +93,68 @@ screen calender(cal_obj):
                 for day_nr in range(0,cal_obj.first_day_of_week):
                     use calender_entry_empty((0,0))
                 for day_nr in range(1, cal_obj.days_amount+1):
-                    use calender_entry_short((day_nr,), cal_obj.gui_cell_xy_pos(day_nr,calender_entry_width, calender_entry_short_height, highest_cell_ypos))
+                    use calender_entry_short(day_nr,cal_obj.get_day_entries(day_nr), cal_obj.gui_cell_xy_pos(day_nr,calender_entry_width, calender_entry_short_height, highest_cell_ypos))
                 
 
 
 
 init -999 python:
+
+    class CalenderDay:
+
+        def __init__(self,*entries):
+            self.entries = []
+            self.add(*entries)
+
+        def add(self,*entries):
+            self.entries.extend(entries)
+            self.entries.sort()
+
+        def get_entries(self):
+            return self.entries
+
+        def __iter__(self):
+            return iter(self.entries)
+
+        def __getitem__(self,n):
+            return self.entries[n]
+
+        def __len__(self):
+            return len(self.entries)
+
+
+
+
+
+    class DayTimeMinutesEntry:
+
+        def __init__(self,minutes,text):
+            self.minutes = minutes
+            self.text = text 
+
+        def hour_minutes(self):
+            return self.minutes//60, self.minutes % 60
+
+        def __str__(self):
+            h,m = self.hour_minutes()
+            t = self.text
+            return "{h}:{m} : {t}".format(h = h, m = m, t = t)
+
+        def __gt__(self,other):
+            return self.minutes.__gt__(other.minutes)
+
+        def __lt__(self,other):
+            return self.minutes.__lt__(other.minutes)        
+
+        def __ge__(self,other):
+            return self.minutes.__ge__(other.minutes)
+
+        def __le__(self,other):
+            return self.minutes.__le__(other.minutes)  
+
+
+
+
 
     class CalenderMonth:
 
@@ -128,6 +193,7 @@ init -999 python:
 
         def __init__(self,year,month):
             self.reset(year,month)
+            self.days = dict()
 
 
         def reset(self,year,month):
@@ -140,7 +206,11 @@ init -999 python:
             self.days_amount = self.calc_days_of_month()
             self.first_day_of_week = self.calc_months_first_day_of_week()
 
+        def add_day(self,number,calenderDay):
+            self.days[number] = calenderDay
 
+        def get_day_entries(self,day_number):
+            return self.days.get(int(day_number),["empty"])
         
         def calc_leap_year(self):
             year = self.year
@@ -259,6 +329,18 @@ init -999 python:
     #calenderMonth =CalenderMonth(2000, "February")
     #calenderMonth =CalenderMonth(2001, "January")
 
+    daytime = DayTimeMinutesEntry(16*60+15, "eat lunch")
+
+    math_lesson = DayTimeMinutesEntry(9*60+15, "math ")
+    physicks_lesson = DayTimeMinutesEntry(11*60+15, "physicks")
+    info_lesson = DayTimeMinutesEntry(13*60+15, "informaticks lesson")
+    sport_lesson = DayTimeMinutesEntry(15*60+15, "sports lesson long entry")
+
+
+    calenderDay = CalenderDay(math_lesson, info_lesson, sport_lesson, physicks_lesson)
+    calenderMonth.add_day(15,calenderDay)
+
+
 
 
 
@@ -267,6 +349,7 @@ label test_calender_entry_short():
     show screen calender(calenderMonth)
     hide window  
     label .loop:
+        "[daytime]"
         pause 
     jump .loop 
     return 

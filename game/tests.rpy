@@ -5,5 +5,7 @@ label start_tests():
         "test_calender_entry_short":
             jump test_calender_entry_short
         "test_snowflakes":
-            jump test_snowflakes
+            jump test_snowflake
+        "display_character_with_features_label":
+            jump display_character_with_features_label
 

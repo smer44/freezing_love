@@ -13,6 +13,8 @@ style default:
     properties gui.text_properties()
     language gui.language
 
+
+
 style input:
     properties gui.text_properties("input", accent=True)
     adjust_spacing False
@@ -23,6 +25,7 @@ style hyperlink_text:
 
 style gui_text:
     properties gui.text_properties("interface")
+    outlines [ (absolute(2), "#000", absolute(2), absolute(2)) ]
 
 
 style button:
