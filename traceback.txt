@@ -1,38 +1,26 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/obj_screen_char.rpy", line 275, in script
-    pause
-  File "renpy/common/000statements.rpy", line 462, in execute_pause
-    renpy.pause()
-TypeError: 'CharWithFeatures' object is not callable
+  File "game/test_obj_char_elena_petrovic.rpy", line 5, in script
+    init -998 python:
+  File "game/test_obj_char_elena_petrovic.rpy", line 34, in <module>
+    si = elena.new_group("sins",3)
+TypeError: new_group() takes 2 positional arguments but 3 were given
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/obj_screen_char.rpy", line 275, in script
-    pause
-  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\ast.py", line 1971, in execute
-    self.call("execute")
-  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\ast.py", line 1953, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\statements.py", line 349, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 462, in execute_pause
-    renpy.pause()
-  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\exports.py", line 1662, in pause
-    rv = renpy.ui.interact(mouse='pause', type='pause', roll_forward=roll_forward, pause=delay, pause_modal=modal)
-  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\ui.py", line 301, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\display\core.py", line 2166, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\display\core.py", line 2609, in interact_core
-    trans = instantiate_transition(None, old_root, layers_root)
-  File "C:\2022portable_programs\renpy-8.2.3-sdk\renpy\display\core.py", line 2519, in instantiate_transition
-    trans = self.ongoing_transition[layer](
-TypeError: 'CharWithFeatures' object is not callable
+  File "game/test_obj_char_elena_petrovic.rpy", line 5, in script
+    init -998 python:
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\ast.py", line 827, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\python.py", line 1178, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/test_obj_char_elena_petrovic.rpy", line 34, in <module>
+    si = elena.new_group("sins",3)
+TypeError: new_group() takes 2 positional arguments but 3 were given
 
 Windows-10-10.0.19045 AMD64
-Ren'Py 8.2.3.24061702
+Ren'Py 8.3.4.24120703
 freezing_love_1 1.0
-Sat Dec 28 05:13:06 2024
+Wed Jan  8 20:47:02 2025

@@ -2,9 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/obj_screen_char.rpy", line 13: 'ysize' is not a keyword argument or valid child of the screen statement.
-    ysize = 165
-         ^
+File "game/obj_screen_char.rpy", line 91: f-string: invalid conversion character: expected 's', 'r', or 'a'
+                return f"{self!name} : {self!value}"
 
 Ren'Py Version: Ren'Py 8.2.3.24061702
-Sat Dec 28 05:16:00 2024
+Sun Jan  5 06:21:20 2025
