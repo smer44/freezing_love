@@ -1,49 +1,86 @@
 ﻿
-default calender_entry_width = config.screen_width //9
-default calender_entry_short_height = config.screen_height //9
-default calender_entry_full_height = int(config.screen_width /3.5)
-default highest_cell_ypos = config.screen_height - calender_entry_full_height
+#default calender_entry_width = config.screen_width //9
+#default calender_entry_short_height = config.screen_height //9
+#default calender_entry_full_height = int(config.screen_width /3.5)
 
-screen calender_entry_short(title,texts,xy):
-    default k = 12
-    frame:
-        modal True
-        xysize (calender_entry_width, calender_entry_short_height)
-        imagebutton:
-            idle Solid("#000",xsize=calender_entry_width-k, ysize=calender_entry_short_height-k)
-            hover Solid("#0af",xsize=calender_entry_width-k, ysize=calender_entry_short_height-k)
-            action ToggleScreen("calender_entry_long",None, title,texts,xy)
-        #pos xy 
-        vbox:
-            text "[title]"
-            for text in texts[:2]:
-                text "[text]" style  "small_calender_entry_text"
-            if len(texts)>2:
-                text "..." style  "small_calender_entry_text"
+# Do not fuse calender_entry_screen and calender_entry_long together !
+screen calender_entry_screen(title=None, texts= None , long_cell_rect = None):
+
+    default k = 12 
+    default width = config.screen_width //9
+    default height = config.screen_height //9   
+
+    #if both are none, display empty screen:
+    if  texts is None:     
+        frame:
+            #style "empty"
+            xysize (width, height)
+            add Solid("#111a",xsize=width-k, ysize=height-k)
+            if title:
+                text "[title]"
+    else:
+        frame:
+            modal True
+            xysize (width, height)
+            #pos xy 
+            imagebutton:
+                idle Solid("#111a",xsize=width-k, ysize=height-k)
+                hover Solid("#235a",xsize=width-k, ysize=height-k)
+                action ToggleScreen("calender_entry_long", None,title,texts,long_cell_rect  )
+            vbox:
+                text "[title]"
+                for day_entry in texts[:2]:
+                    text "[day_entry.str_time()] [day_entry]" style  "small_calender_entry_text"
+                    #text "[type(day_entry)] [day_entry]"
+                if len(texts)>2:
+                    text "..." style  "small_calender_entry_text"
 
 
 style small_calender_entry_text:
     size config.screen_height //50
 
 
-screen calender_entry_long(title,texts,xy):
+screen calender_entry_long(title,texts,long_cell_rect):
+    $ x,y,w,h = long_cell_rect
 
     frame:
+        imagebutton:
+            idle Solid("#000a")
+            action Hide("calender_entry_long")
         modal True
-        xysize (calender_entry_width*2, calender_entry_full_height)
-        pos xy 
+        xysize (w,h)
+        pos (x,y)
+        #ypadding 20
         vbox:
-            text "[title]"
-            for text in texts:
-                text "[text]" style  "small_calender_entry_text"
+            xalign 0.5
+            yoffset 20
+            spacing 10
+            #style  "small_calender_entry_text"
+            #text "[title]"
+            for day_entry in texts:
+                frame:
+                    #xalign 0.5
+                    #padding (20,22)
+                    vbox:
+                        spacing 15
+                        #xalign 0.5
+                        hbox:
+                            xsize w*0.9
+                            #xalign 0.5
+                            text day_entry.str_time() + " - " + day_entry.str_end() style  "small_calender_entry_text":
+                                at transform:
+                                    xalign 0.2                    
+                            text "[day_entry]" style  "small_calender_entry_text":
+                                at transform:
+                                    xalign 0.3
+
+                        text day_entry.msg style  "small_calender_entry_text":
+                                at transform:
+                                    xalign 0.5
+                                       
+                #text "[text]" style  "small_calender_entry_text"
 
 
-
-screen calender_entry_empty(xy):
-    frame:
-        style "empty"
-        xysize (calender_entry_width, calender_entry_short_height)
-        #pos xy 
 
 
 style calender_header_text:
@@ -59,10 +96,15 @@ style calender_header_textbutton:
     xcenter 0.5
 
 
-screen calender(cal_obj):             
+screen calender(cal_obj):
+    default calender_entry_width = config.screen_width //9             
+    default calender_entry_short_height = config.screen_height //9 
+    
+    default calender_entry_full_height = int(config.screen_width /3.5)
+    default highest_cell_ypos = config.screen_height - calender_entry_full_height
     frame:
         #align 0.5,0.5
-        pos config.screen_width//9, config.screen_height //9 
+        pos calender_entry_width, calender_entry_short_height
         vbox:
             frame:
                 style "empty"
@@ -88,13 +130,21 @@ screen calender(cal_obj):
                         xsize calender_entry_width
                         text day_of_week_name:
                             xalign 0.5
+            #text " cells: [7*cal_obj.gui_rows_amount()], first_empty [cal_obj.first_day_of_week] , loop_end: [cal_obj.days_amount]"
             grid 7 cal_obj.gui_rows_amount():
                     #use calender_entry_short((day_of_week_name,), (0,0))
                 for day_nr in range(0,cal_obj.first_day_of_week):
-                    use calender_entry_empty((0,0))
+                    use calender_entry_screen()
                 for day_nr in range(1, cal_obj.days_amount+1):
-                    use calender_entry_short(day_nr,cal_obj.get_day_entries(day_nr), cal_obj.gui_cell_xy_pos(day_nr,calender_entry_width, calender_entry_short_height, highest_cell_ypos))
+                    $ cell_entries = cal_obj.get_day_entries(day_nr)
+                    #this are coordinates of full size component
+                    $ long_cell_xy = cal_obj.gui_cell_xy_pos(day_nr,calender_entry_width, calender_entry_short_height, highest_cell_ypos)
+                    $ long_cell_rect = *long_cell_xy,calender_entry_width*2,calender_entry_full_height
+                    #if cell_entries:
+                    use calender_entry_screen(day_nr, cell_entries,long_cell_rect)
+                    #use calender_entry_screen((0,0), cell_title, cell_entries)
                 
+
 
 
 
@@ -125,32 +175,47 @@ init -999 python:
 
 
 
+    def add_minutes(h,m,am):
+        m = m + h*60 + am 
+        d = m//1440 
+        h = m//60 
+        m = m%60 
+        return d,h,m 
 
     class DayTimeMinutesEntry:
 
-        def __init__(self,minutes,text):
-            self.minutes = minutes
-            self.text = text 
+        def __init__(self,name,msg, hour,minute, duration_minutes):
+            assert isinstance(name, str) and isinstance(msg,str) , "DayTimeMinutesEntry.__init__ : wrong {name=} or {msg=}"
+            self.name = name 
+            self.msg = msg 
+            self.hour = hour
+            self.minute = minute
+            self.daytime = hour * 60 + minute
+            self.duration_minutes = duration_minutes
 
-        def hour_minutes(self):
-            return self.minutes//60, self.minutes % 60
+
+        def str_end(self):
+            d,h,m = add_minutes(self.hour,self.minute,self.duration_minutes)
+            return f"{h}:{m}"
+
+        def str_time(self):
+            return f"{self.hour}:{self.minute}"
+
 
         def __str__(self):
-            h,m = self.hour_minutes()
-            t = self.text
-            return "{h}:{m} : {t}".format(h = h, m = m, t = t)
+            return self.name
 
         def __gt__(self,other):
-            return self.minutes.__gt__(other.minutes)
+            return self.daytime.__gt__(other.daytime)
 
         def __lt__(self,other):
-            return self.minutes.__lt__(other.minutes)        
+            return self.daytime.__lt__(other.daytime)        
 
         def __ge__(self,other):
-            return self.minutes.__ge__(other.minutes)
+            return self.daytime.__ge__(other.daytime)
 
         def __le__(self,other):
-            return self.minutes.__le__(other.minutes)  
+            return self.daytime.__le__(other.daytime)  
 
 
 
@@ -210,7 +275,7 @@ init -999 python:
             self.days[number] = calenderDay
 
         def get_day_entries(self,day_number):
-            return self.days.get(int(day_number),["empty"])
+            return self.days.get(int(day_number),None)
         
         def calc_leap_year(self):
             year = self.year
@@ -329,12 +394,12 @@ init -999 python:
     #calenderMonth =CalenderMonth(2000, "February")
     #calenderMonth =CalenderMonth(2001, "January")
 
-    daytime = DayTimeMinutesEntry(16*60+15, "eat lunch")
+    daytime = DayTimeMinutesEntry("lunch", " Just eat lunch in peace ", 16, 15,20 )
 
-    math_lesson = DayTimeMinutesEntry(9*60+15, "math ")
-    physicks_lesson = DayTimeMinutesEntry(11*60+15, "physicks")
-    info_lesson = DayTimeMinutesEntry(13*60+15, "informaticks lesson")
-    sport_lesson = DayTimeMinutesEntry(15*60+15, "sports lesson long entry")
+    math_lesson = DayTimeMinutesEntry("math ","Linear equasions ",  9, 15,90, )
+    physicks_lesson = DayTimeMinutesEntry("Physicks", "Shroedinger equsions,", 11,15,90 )
+    info_lesson = DayTimeMinutesEntry( "IT" ,"informaticks lesson", 13, 15,90 )
+    sport_lesson = DayTimeMinutesEntry( "sports", "very long lesson long long entry", 15,15,60)
 
 
     calenderDay = CalenderDay(math_lesson, info_lesson, sport_lesson, physicks_lesson)
@@ -349,7 +414,7 @@ label test_calender_entry_short():
     show screen calender(calenderMonth)
     hide window  
     label .loop:
-        "[daytime]"
+        #"Say : [daytime]"
         pause 
     jump .loop 
     return 

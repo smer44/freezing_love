@@ -1,26 +1,78 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/test_obj_char_elena_petrovic.rpy", line 5, in script
-    init -998 python:
-  File "game/test_obj_char_elena_petrovic.rpy", line 34, in <module>
-    si = elena.new_group("sins",3)
-TypeError: new_group() takes 2 positional arguments but 3 were given
+  File "game/calender_screen.rpy", line 395, in script
+    pause
+  File "renpy/common/000statements.rpy", line 462, in execute_pause
+    renpy.pause()
+  File "game/calender_screen.rpy", line 43, in execute
+    screen calender_entry_long(title,texts,long_cell_rect):
+  File "game/calender_screen.rpy", line 43, in execute
+    screen calender_entry_long(title,texts,long_cell_rect):
+  File "game/calender_screen.rpy", line 46, in execute
+    frame:
+  File "game/calender_screen.rpy", line 50, in execute
+    vbox:
+  File "game/calender_screen.rpy", line 52, in execute
+    for day_entry in texts:
+  File "game/calender_screen.rpy", line 53, in execute
+    text day_entry.str_time() + " - " + day_entry.str_end()
+  File "game/calender_screen.rpy", line 53, in <module>
+    text day_entry.str_time() + " - " + day_entry.str_end()
+AttributeError: 'str' object has no attribute 'str_time'
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/test_obj_char_elena_petrovic.rpy", line 5, in script
-    init -998 python:
-  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\ast.py", line 827, in execute
-    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
-  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\python.py", line 1178, in py_exec_bytecode
-    exec(bytecode, globals, locals)
-  File "game/test_obj_char_elena_petrovic.rpy", line 34, in <module>
-    si = elena.new_group("sins",3)
-TypeError: new_group() takes 2 positional arguments but 3 were given
+  File "game/calender_screen.rpy", line 395, in script
+    pause
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\ast.py", line 1980, in execute
+    self.call("execute")
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\ast.py", line 1959, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\statements.py", line 374, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 462, in execute_pause
+    renpy.pause()
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\exports\statementexports.py", line 194, in pause
+    rv = renpy.ui.interact(mouse='pause', type='pause', roll_forward=roll_forward, pause=delay, pause_modal=modal)
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\ui.py", line 301, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\display\core.py", line 2215, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\display\core.py", line 2745, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\display\displayable.py", line 434, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\display\displayable.py", line 434, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\display\displayable.py", line 434, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\display\screen.py", line 480, in visit_all
+    callback(self)
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\display\core.py", line 2745, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\display\screen.py", line 491, in per_interact
+    self.update()
+  File "C:\2022portable_programs\renpy-8.3.4-sdk modified\renpy\display\screen.py", line 697, in update
+    self.screen.function(**self.scope)
+  File "game/calender_screen.rpy", line 43, in execute
+    screen calender_entry_long(title,texts,long_cell_rect):
+  File "game/calender_screen.rpy", line 43, in execute
+    screen calender_entry_long(title,texts,long_cell_rect):
+  File "game/calender_screen.rpy", line 46, in execute
+    frame:
+  File "game/calender_screen.rpy", line 50, in execute
+    vbox:
+  File "game/calender_screen.rpy", line 52, in execute
+    for day_entry in texts:
+  File "game/calender_screen.rpy", line 53, in execute
+    text day_entry.str_time() + " - " + day_entry.str_end()
+  File "game/calender_screen.rpy", line 53, in <module>
+    text day_entry.str_time() + " - " + day_entry.str_end()
+AttributeError: 'str' object has no attribute 'str_time'
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.3.4.24120703
 freezing_love_1 1.0
-Wed Jan  8 20:47:02 2025
+Tue Jan 21 06:05:25 2025

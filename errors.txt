@@ -2,8 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/obj_screen_char.rpy", line 91: f-string: invalid conversion character: expected 's', 'r', or 'a'
-                return f"{self!name} : {self!value}"
+File "game/calender_screen.rpy", line 55: 'padding' is not a keyword argument or valid child of the vbox statement.
+    padding (10,12)
+           ^
 
-Ren'Py Version: Ren'Py 8.2.3.24061702
-Sun Jan  5 06:21:20 2025
+Ren'Py Version: Ren'Py 8.3.4.24120703
+Tue Jan 21 06:13:33 2025
